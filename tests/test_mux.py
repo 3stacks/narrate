@@ -42,7 +42,7 @@ def test_write_m4b_with_chapters(tmp_path: Path):
         chapters=[("One", one), ("Two", two)],
         dest=dest,
         title="River Book",
-        author="Ada Example",
+        author="Edith Wren",
     )
     assert dest.exists()
     assert dest.stat().st_size > 200

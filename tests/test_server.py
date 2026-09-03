@@ -8,7 +8,7 @@ from narrate.voices import DEFAULT_MODEL, DEFAULT_VOICE
 def test_meta_endpoint(tmp_path):
     settings = Settings(
         openrouter_api_key="",
-        users=("Sam", "Alex"),
+        users=("Margaret", "Henry"),
         data_dir=tmp_path,
         library_dir=tmp_path / "library",
         publish_target="",
@@ -23,7 +23,7 @@ def test_meta_endpoint(tmp_path):
     )
     client = TestClient(create_app(settings))
     meta = client.get("/api/meta").json()
-    assert meta["users"] == ["Sam", "Alex"]
+    assert meta["users"] == ["Margaret", "Henry"]
     assert meta["has_key"] is False
     assert meta["models"][0]["id"] == DEFAULT_MODEL
     page = client.get("/")

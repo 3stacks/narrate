@@ -14,7 +14,7 @@
       NARRATE_PORT: "3841"
       NARRATE_DATA_DIR: /data
       NARRATE_LIBRARY_DIR: /library
-      NARRATE_USERS: ${NARRATE_USERS:-me}
+      NARRATE_USERS: ${NARRATE_USERS:-Margaret,Henry}
       NARRATE_BASIC_AUTH: ${NARRATE_BASIC_AUTH:-}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       JELLYFIN_URL: http://host.docker.internal:8096

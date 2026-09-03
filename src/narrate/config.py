@@ -66,9 +66,9 @@ def load_settings() -> Settings:
     data_dir = _path("NARRATE_DATA_DIR", ROOT / "data")
     users = tuple(
         name.strip()
-        for name in os.environ.get("NARRATE_USERS", "me").split(",")
+        for name in os.environ.get("NARRATE_USERS", "Margaret,Henry").split(",")
         if name.strip()
-    ) or ("me",)
+    ) or ("Margaret",)
     rsync_target = (
         os.environ.get("JELLYFIN_RSYNC_TARGET")
         or os.environ.get("NARRATE_PUBLISH_TARGET")

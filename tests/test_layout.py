@@ -25,7 +25,7 @@ def test_install_book(tmp_path: Path):
     cover.write_bytes(b"img")
     dest = install_book(
         library=tmp_path / "library",
-        author="Ada Example",
+        author="Edith Wren",
         title="River Book",
         m4b=m4b,
         cover=cover,
@@ -33,15 +33,15 @@ def test_install_book(tmp_path: Path):
     assert dest.name == "River Book.m4b"
     assert dest.exists()
     assert (dest.parent / "cover.jpg").exists()
-    assert book_dir(tmp_path / "library", "Ada Example", "River Book") == dest.parent
+    assert book_dir(tmp_path / "library", "Edith Wren", "River Book") == dest.parent
 
 
 def test_jellyfin_item_path(tmp_path: Path):
     library = tmp_path / "library"
-    installed = library / "Ada Example" / "River Book" / "River Book.m4b"
+    installed = library / "Edith Wren" / "River Book" / "River Book.m4b"
     assert (
         jellyfin_item_path("/media/audiobooks", library, installed)
-        == "/media/audiobooks/Ada Example/River Book"
+        == "/media/audiobooks/Edith Wren/River Book"
     )
 
 
@@ -51,7 +51,7 @@ def test_publish_book_rsyncs_author_title_folder(tmp_path: Path):
     m4b.write_bytes(b"fake")
     installed = install_book(
         library=library,
-        author="Ada Example",
+        author="Edith Wren",
         title="River Book",
         m4b=m4b,
         cover=None,
@@ -61,11 +61,11 @@ def test_publish_book_rsyncs_author_title_folder(tmp_path: Path):
         dest = publish_book(
             library, installed, "media-server:/data/media/audiobooks"
         )
-    assert dest == "media-server:/data/media/audiobooks/Ada Example/River Book/"
+    assert dest == "media-server:/data/media/audiobooks/Edith Wren/River Book/"
     args = run.call_args[0][0]
     assert args[0] == "rsync"
     assert args[-1] == dest
-    assert args[-2].endswith("Ada Example/River Book/")
+    assert args[-2].endswith("Edith Wren/River Book/")
 
 
 def test_is_remote_target():
@@ -84,7 +84,7 @@ def test_publish_book_local_copy_skips_ssh(tmp_path: Path):
     m4b.write_bytes(b"fake")
     installed = install_book(
         library=library,
-        author="Ada Example",
+        author="Edith Wren",
         title="River Book",
         m4b=m4b,
         cover=None,
@@ -92,7 +92,7 @@ def test_publish_book_local_copy_skips_ssh(tmp_path: Path):
     with patch("narrate.layout.subprocess.run") as run:
         dest = publish_book(library, installed, str(dest_root))
     run.assert_not_called()
-    copied = dest_root / "Ada Example" / "River Book" / "River Book.m4b"
+    copied = dest_root / "Edith Wren" / "River Book" / "River Book.m4b"
     assert Path(dest) == copied.parent
     assert copied.read_bytes() == b"fake"
 
@@ -103,7 +103,7 @@ def test_deliver_in_place_still_scans(tmp_path: Path):
     m4b.write_bytes(b"fake")
     installed = install_book(
         library=library,
-        author="Ada Example",
+        author="Edith Wren",
         title="River Book",
         m4b=m4b,
         cover=None,
@@ -128,12 +128,12 @@ def test_notify_jellyfin_posts_media_updated():
         notify_jellyfin(
             "http://media-server:8096",
             "secret",
-            "/media/audiobooks/Ada Example/River Book",
+            "/media/audiobooks/Edith Wren/River Book",
         )
         client.post.assert_called_once()
         url, kwargs = client.post.call_args[0][0], client.post.call_args[1]
         assert url == "http://media-server:8096/Library/Media/Updated"
         assert kwargs["headers"]["X-Emby-Token"] == "secret"
         assert kwargs["json"]["Updates"][0]["Path"] == (
-            "/media/audiobooks/Ada Example/River Book"
+            "/media/audiobooks/Edith Wren/River Book"
         )

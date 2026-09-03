@@ -42,11 +42,11 @@ Put `OPENROUTER_API_KEY` in `.env`. Preview shows the dollar estimate before gen
 ```bash
 narrate serve                 # http://127.0.0.1:3841
 narrate preview book.epub
-narrate import book.epub --who me --yes
+narrate import book.epub --who Margaret --yes
 narrate voices
 ```
 
-The import UI is a drop zone, a name, a voice, and a cost confirm. Several people can import; tag who did it with `NARRATE_USERS`.
+The import UI is a drop zone, a name, a voice, and a cost confirm. Several people can import; set `NARRATE_USERS=Margaret,Henry` and tag who did it.
 
 ## Output
 
