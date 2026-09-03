@@ -1,0 +1,25 @@
+services:
+  narrate:
+    build: .
+    container_name: narrate
+    restart: unless-stopped
+    ports:
+      - "3841:3841"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    environment:
+      NARRATE_HOST: "0.0.0.0"
+      NARRATE_PORT: "3841"
+      NARRATE_DATA_DIR: /data
+      NARRATE_LIBRARY_DIR: /library
+      JELLYFIN_URL: ${JELLYFIN_URL:-http://host.docker.internal:8096}
+      JELLYFIN_CONTAINER_PATH: ${JELLYFIN_CONTAINER_PATH:-/media/audiobooks}
+      JELLYFIN_RSYNC_TARGET: ""
+    volumes:
+      - narrate-data:/data
+      - ${AUDIOBOOK_DIR:-./data/library}:/library
+
+volumes:
+  narrate-data:

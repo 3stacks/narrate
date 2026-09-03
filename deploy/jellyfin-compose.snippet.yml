@@ -1,0 +1,29 @@
+# Drop this service into an existing compose file that already runs Jellyfin.
+# Bind-mount the same host folder Jellyfin uses for its Books library.
+
+  narrate:
+    build: .
+    container_name: narrate
+    restart: unless-stopped
+    ports:
+      - "3841:3841"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      NARRATE_HOST: "0.0.0.0"
+      NARRATE_PORT: "3841"
+      NARRATE_DATA_DIR: /data
+      NARRATE_LIBRARY_DIR: /library
+      NARRATE_USERS: ${NARRATE_USERS:-me}
+      NARRATE_BASIC_AUTH: ${NARRATE_BASIC_AUTH:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      JELLYFIN_URL: http://host.docker.internal:8096
+      JELLYFIN_API_KEY: ${JELLYFIN_API_KEY}
+      JELLYFIN_CONTAINER_PATH: /media/audiobooks
+      JELLYFIN_RSYNC_TARGET: ""
+    volumes:
+      - narrate-data:/data
+      - ${AUDIOBOOK_DIR:-/data/media/audiobooks}:/library
+
+# Jellyfin Books library path inside the jellyfin container is usually
+# /media/audiobooks when the host folder is mounted at /media.

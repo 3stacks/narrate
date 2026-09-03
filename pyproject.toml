@@ -1,0 +1,51 @@
+[project]
+name = "narrate"
+version = "0.1.0"
+description = "Turn owned EPUB and PDF books into chaptered M4B audiobooks via OpenRouter TTS, then drop them in a Jellyfin library."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Luke Boyle" }]
+keywords = ["audiobook", "tts", "jellyfin", "epub", "pdf", "self-hosted"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dependencies = [
+    "beautifulsoup4>=4.12",
+    "ebooklib>=0.18",
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "lxml>=5.3",
+    "pypdf>=5.1",
+    "python-dotenv>=1.0",
+    "python-multipart>=0.0.9",
+    "uvicorn[standard]>=0.32",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3"]
+
+[project.urls]
+Homepage = "https://github.com/3stacks/narrate"
+Issues = "https://github.com/3stacks/narrate/issues"
+
+[project.scripts]
+narrate = "narrate.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+narrate = ["web/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

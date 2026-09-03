@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>narrate</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>narrate</h1>
+      <p class="sub">Drop in a book you own. We turn it into an audiobook for the home library.</p>
+    </div>
+    <span class="badge" id="key-badge">checking key</span>
+  </header>
+
+  <section class="tile drop" id="drop">
+    <input id="file" type="file" accept=".epub,.pdf,application/epub+zip,application/pdf">
+    <p class="drop-label">Drop an EPUB or PDF here, or tap to choose.</p>
+    <p class="hint" id="file-name"></p>
+  </section>
+
+  <form id="form" class="grid-form hidden">
+    <label>
+      Who is importing
+      <input id="who" name="who" list="who-list" autocomplete="off">
+      <datalist id="who-list"></datalist>
+    </label>
+    <label>
+      Voice model
+      <select id="model"></select>
+    </label>
+    <label>
+      Voice
+      <select id="voice"></select>
+    </label>
+    <p class="notes" id="model-notes"></p>
+  </form>
+
+  <section id="preview" class="tile hidden">
+    <h2 id="book-title"></h2>
+    <p class="sub" id="book-author"></p>
+    <div class="stats">
+      <div><em>Chapters</em><b id="stat-chapters">0</b></div>
+      <div><em>Characters</em><b id="stat-chars">0</b></div>
+      <div><em>About</em><b id="stat-cost">$0</b></div>
+    </div>
+    <p class="warn" id="book-warning"></p>
+    <ol id="chapter-list"></ol>
+    <button type="button" id="go">Generate audiobook</button>
+  </section>
+
+  <section>
+    <h2>Queue</h2>
+    <div id="jobs" class="jobs"></div>
+  </section>
+
+  <p class="note">
+    Listen in a real audiobook client pointed at the Jellyfin Books library
+    (Symfonium on Android, Plappa on iOS). Progress, sleep timer, and offline
+    download live in the player, not here. Only books you purchased.
+  </p>
+  <script src="/static/app.js"></script>
+</body>
+</html>
